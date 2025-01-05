@@ -1,3 +1,5 @@
+IMPORTANT: Make sure to allow pop-ups in your browser, otherwise it doesn't work right
+
 This is a simple AI portfolio creator powered by models from GROQ AI.
 
 Uses some information provided by the user to create a simple portfolio.
