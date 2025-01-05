@@ -1,3 +1,5 @@
+https://ai-portfolio-azure.vercel.app/
+
 IMPORTANT: Make sure to allow pop-ups in your browser, otherwise it doesn't work right
 
 This is a simple AI portfolio creator powered by models from GROQ AI.
