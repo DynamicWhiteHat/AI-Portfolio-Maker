@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Portfolio Maker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <div class="container">
+        <h1>&nbsp;AI Portfolio Designer&nbsp;</h1>     
+        <form id="portfolioForm" onsubmit="return handleSubmit(event)">
+            <label for="Website Name">Website Name:</label>
+            <br>
+            <input type="text" id="Website Name" placeholder="Bob Ross' Portfolio" required>
+            <br>
+            <label for="PName">Personal/Company Name:</label>
+            <br>
+            <input type="text" id="PName" placeholder="Bob Ross" required>
+            <br>
+            <label for="interests">Interests:</label>
+            <br>
+            <textarea type="text" rows=4 id="interests" placeholder="Swimming, Golfing, Developing, Running, Studying" required></textarea>
+            <br>
+            <label for="words">3 Words That Describe You:</label>
+            <br>
+            <input type="text" id="word1" placeholder="Smart" required>
+            <input type="text" id="word2" placeholder="Tall" required>
+            <input type="text" id="word3" placeholder="Athletic" required>
+            <br>
+            <label for="type">Website Style</label>
+            <br>
+            <select name="type" id="type" required>
+                <option value="">Select a style...</option>
+                <option value="minimal">Minimal & Clean</option>
+                <option value="creative">Creative & Bold</option>
+                <option value="professional">Professional & Corporate</option>
+                <option value="modern">Modern & Sleek</option>
+                <option value="artistic">Artistic & Expressive</option>
+                <option value="tech">Tech & Digital</option>
+                <option value="gradient">Gradient & Dynamic</option>
+                <option value="retro">Retro & Vintage</option>
+                <option value="brutalist">Brutalist & Raw</option>
+            </select>
+            <br>
+            <label>Choose Theme Color:</label>
+            <br>
+            <div class="color-picker">
+                <label for="c1">Color 1:</label>
+                <input type="color" id="c1" required>
+            </div>
+            <div class="color-picker">
+                <label for="c2">Color 2:</label>
+                <input type="color" id="c2" required>
+            </div>
+            <div class="color-picker">
+                <label for="c3">Color 3:</label>
+                <input type="color" id="c3" required>
+            </div>
+            <label for="model">AI Model</label>
+            <br>
+            <select name="model" id="model" required>
+                <option value="">Select a model...</option>
+                <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
+                <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
+                <option value="llama3-70b-8192">llama3-70b-8192</option>
+                <option value="gemma2-9b-it">gemma2-9b-it</option>
+                <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
+            </select>
+            <input type="submit" value="Generate Portfolio">
+        </form>
+
+        <div id="loadingIndicator" class="loading">
+            Generating your portfolio...
+        </div>
+    </div>
+
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Show loading indicator
+            document.getElementById('loadingIndicator').style.display = 'block';
+            // Disable submit button
+            event.target.querySelector('input[type="submit"]').disabled = true;
+            
+            // Check if form is valid
+            const form = document.getElementById('portfolioForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                // Hide loading and enable button if validation fails
+                document.getElementById('loadingIndicator').style.display = 'none';
+                event.target.querySelector('input[type="submit"]').disabled = false;
+                return;
+            }
+            
+            await sendQuery();
+            
+            // Hide loading and enable button after completion
+            document.getElementById('loadingIndicator').style.display = 'none';
+            event.target.querySelector('input[type="submit"]').disabled = false;
+        }
+
+        async function sendQuery() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            try {
+                // Get all form values
+                const wname = document.getElementById('Website Name').value;
+                const pname = document.getElementById('PName').value;
+                const interests = document.getElementById('interests').value;
+                const word1 = document.getElementById('word1').value;
+                const word2 = document.getElementById('word2').value;
+                const word3 = document.getElementById('word3').value;  
+                const style = document.getElementById('type').value; 
+                const color1 = document.getElementById('c1').value;
+                const color2 = document.getElementById('c2').value;
+                const color3 = document.getElementById('c3').value;
+                const model = document.getElementById('model').value;
+
+                // You need to replace this with your actual API key
+                const apiKey = APIKEY;
+
+                // Initial query
+                loadingIndicator.textContent = "Step 1/3: Generating initial portfolio...";
+                const initialQuery = `
+                Create a highly professional and visually appealing portfolio website with advanced front-end development skills. It should not look overly simplistic or dated, but instead have a modern, clean design that reflects the quality of a hired front-end developer's work. The website should incorporate detailed context based on the information provided below, utilizing multiple sections, backgrounds, margins, paddings, and clear text visibility. Avoid generic designs by tailoring the layout to suit the provided preferences. Make use of shadows, animations, and polished design elements to ensure a standout presentation.
+
+                Please return the HTML code only. For styling, include the CSS within a <STYLE> tag in the <head> section, rather than linking to an external style.css.
+
+                Key Considerations:
+                - Prioritize text visibility: Ensure sufficient contrast between text and background (e.g., avoid white text on a white background).
+                - Use well-structured sections and content placement for a smooth flow.
+                - Include thoughtful use of margins, padding, and alignment to enhance the user experience.
+
+                For reference, excellent websites include:
+                - https://www.jameswilliams.design/
+                - https://www.bychristinakosik.com/
+
+                Create a hero page with the following information:
+                - Website Title: "${wname}"
+                - Person's Name: "${pname}"
+                - Their Interests: "${interests}"
+                - Descriptive Words: "${word1}, ${word2}, ${word3}"
+                - Website Style: "${style}"
+                - Main Colors: "${color1}, ${color2}, ${color3}"
+                `;
+
+
+                console.log('Sending initial request...');
+                const response1 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [
+                            {
+                                role: "user",
+                                content: initialQuery
+                            }
+                        ]
+                    })
+                });
+
+                const data1 = await response1.json();
+                console.log('First response:', data1); // Debug log
+                if (!response1.ok || !data1.choices?.[0]?.message?.content) {
+                    throw new Error(data1.error?.message || 'Invalid response from API');
+                }
+
+                // Wait for 8 seconds before the next request
+                await new Promise(resolve => setTimeout(resolve, 8000));
+
+                // Second iteration
+                loadingIndicator.textContent = "Step 2/3: Enhancing design and interactivity...";
+                const improveQuery1 = `Here's an HTML portfolio. Please improve it significantly while maintaining the same style and structure. Make it more professional, add more interactive elements, and enhance the design. KEEP IT ALL IN ONE FILE. PROVIDE THE COMPLETE CODE. CSS GOES IN THE <STYLE> TAG IN THE HEADER.: ${data1.choices[0].message.content}`;
+                
+                console.log('Sending first improvement request...');
+                const response2 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [
+                            {
+                                role: "user",
+                                content: improveQuery1
+                            }
+                        ]
+                    })
+                });
+
+                const data2 = await response2.json();
+                console.log('Second response:', data2); // Debug log
+                if (!response2.ok || !data2.choices?.[0]?.message?.content) {
+                    throw new Error(data2.error?.message || 'Invalid response from API');
+                }
+
+                // Wait for 8 seconds before the next request
+                await new Promise(resolve => setTimeout(resolve, 8000));
+
+                // Final iteration
+                loadingIndicator.textContent = "Step 3/3: Adding final polish and animations...";
+                const improveQuery2 = `Here's an HTML portfolio. Please make one final improvement pass. Focus on polish, animations, and ensuring everything works perfectly. Only code, no plain text at all. ONLY HTML, CSS, AND JS CODE, NO REGULAR WORDS OR UPDATES. KEEP IT ALL IN ONE FILE. PROVIDE THE COMPLETE CODE. CSS GOES IN THE <STYLE> TAG IN THE HEADER: ${data2.choices[0].message.content}`;
+                
+                console.log('Sending final improvement request...');
+                const response3 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [
+                            {
+                                role: "user",
+                                content: improveQuery2
+                            }
+                        ]
+                    })
+                });
+
+                const data3 = await response3.json();
+                console.log('Final response:', data3); // Debug log
+                if (!response3.ok || !data3.choices?.[0]?.message?.content) {
+                    throw new Error(data3.error?.message || 'Invalid response from API');
+                }
+
+                loadingIndicator.textContent = "Opening your new portfolio...";
+                // Open final result in new window
+                const finalContent = data3.choices[0].message.content;
+                try {
+                    const opened = window.open("");
+                    if (opened) {
+                        opened.document.write(finalContent);
+                        opened.document.close(); // Close the document for writing
+                    } else {
+                        throw new Error('Popup blocked by browser');
+                    }
+                } catch (windowError) {
+                    console.error('Window error:', windowError);
+                    // Fallback: Create a preview in the current page
+                    const previewDiv = document.createElement('div');
+                    previewDiv.innerHTML = finalContent;
+                    document.body.appendChild(previewDiv);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                loadingIndicator.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

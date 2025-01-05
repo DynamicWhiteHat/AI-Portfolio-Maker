@@ -1,0 +1,187 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Reset/Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f1f1fc;
+}
+
+/* Typography */
+h1 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: #f1f1fc;
+    filter: drop-shadow(0 0 20px white);
+}
+
+
+
+label {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #f1f1fc;
+}
+
+/* Flexbox */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: #141619;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    padding: 20px;
+    filter: drop-shadow(0px 0px 50px #141619);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: start;
+}
+
+.container > * {  
+    padding: 10px;
+}
+
+.container h1 {
+    text-align: center;
+    width: 100%;
+}
+
+/* Form */
+
+form {
+    margin-left: 50px;  
+}
+
+
+form input {
+    margin: 10px 0;  
+}
+
+/* Form Elements Styling */
+input[type="text"], 
+input[type="submit"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f1f1fc;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+/* Submit button styling */
+input[type="submit"] {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;  
+    padding: 12px 24px;
+}
+
+input[type="submit"]:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Focus states */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Option styling in select */
+option {
+    background-color: #141619;
+    color: #f1f1fc;
+    padding: 8px;
+}
+
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-picker label {
+    font-size: 20px;
+    margin-left: 20px;
+}
+.color-picker input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 30px;
+    
+    height: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.8);  /* White outline */
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+/* For Firefox */
+.color-picker input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+/* Loading */
+.loading {
+    display: none;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    margin-top: 20px;
+    text-align: center;
+    color: white;  /* Changed from #666 to white */
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
